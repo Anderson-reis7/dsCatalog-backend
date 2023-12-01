@@ -1,13 +1,13 @@
 package projeto.anderson.reis.catalogBackend.entities;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "categories")
+@Table(name = "tb_category")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

@@ -1,6 +1,6 @@
 package projeto.anderson.reis.catalogBackend.entities;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;

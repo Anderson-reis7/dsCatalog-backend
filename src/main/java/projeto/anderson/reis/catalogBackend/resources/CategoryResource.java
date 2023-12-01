@@ -14,6 +14,7 @@ import java.util.List;
 public class CategoryResource {
     @GetMapping
     public ResponseEntity<List<Category>> findAll(){
+        // Apenas para teste
         List<Category> list = new ArrayList<>();
         list.add(new Category(1L, "Books"));
         list.add(new Category(2L, "IT"));

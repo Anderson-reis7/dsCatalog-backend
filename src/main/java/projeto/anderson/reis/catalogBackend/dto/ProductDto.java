@@ -22,7 +22,7 @@ public class ProductDto {
     private String imgUrl;
     private Instant date;
 
-    private List<CategoryDto> categoryDtos = new ArrayList<>();
+    private List<CategoryDto> categories = new ArrayList<>();
 
     public ProductDto(Long id, String name, String description, Double price, String imgUrl, Instant date) {
         this.id = id;
@@ -44,6 +44,6 @@ public class ProductDto {
 
     public ProductDto(Product entity, Set<Category> categories) {
         this(entity);
-        categories.forEach(cat -> this.categoryDtos.add(new CategoryDto(cat)));
+        categories.forEach(cat -> this.categories.add(new CategoryDto(cat)));
     }
 }

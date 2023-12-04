@@ -1,4 +1,4 @@
-package projeto.anderson.reis.catalogBackend.config.exeption;
+package projeto.anderson.reis.catalogBackend.services.exceptions;
 
 public class ResourceNotFoundException extends RuntimeException{
 

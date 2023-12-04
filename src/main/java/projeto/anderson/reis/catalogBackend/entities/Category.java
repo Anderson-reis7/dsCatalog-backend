@@ -3,7 +3,6 @@ package projeto.anderson.reis.catalogBackend.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
@@ -12,7 +11,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Category implements Serializable {
+public class Category{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

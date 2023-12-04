@@ -2,9 +2,12 @@ package projeto.anderson.reis.catalogBackend.services;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import projeto.anderson.reis.catalogBackend.config.exeption.ResourceNotFoundException;
+import projeto.anderson.reis.catalogBackend.services.exceptions.DatabaseException;
+import projeto.anderson.reis.catalogBackend.services.exceptions.ResourceNotFoundException;
 import projeto.anderson.reis.catalogBackend.dto.CategoryDto;
 import projeto.anderson.reis.catalogBackend.entities.Category;
 import projeto.anderson.reis.catalogBackend.repository.CategoryRepository;
@@ -51,7 +54,18 @@ public class CategoryService {
             referenceById = repository.save(referenceById);
             return new CategoryDto(referenceById);
         } catch (EntityNotFoundException e) {
-            throw new ResourceNotFoundException("Id " +id+ " não encontrado!");
+            throw new ResourceNotFoundException("Id " + id + " não encontrado!");
+        }
+    }
+
+    public void delete(Long id) {
+        if (!repository.existsById(id)) {
+            throw new ResourceNotFoundException("Id " + id + " não encontrado!");
+        }
+        try {
+            repository.deleteById(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("Violação de integridade!");
         }
     }
 }

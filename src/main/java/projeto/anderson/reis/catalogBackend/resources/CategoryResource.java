@@ -1,6 +1,9 @@
 package projeto.anderson.reis.catalogBackend.resources;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +12,6 @@ import projeto.anderson.reis.catalogBackend.dto.CategoryDto;
 import projeto.anderson.reis.catalogBackend.services.CategoryService;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/categories")
@@ -18,8 +20,12 @@ public class CategoryResource {
     private CategoryService service;
 
     @GetMapping
-    public ResponseEntity<List<CategoryDto>> findAll() {
-        List<CategoryDto> dtos = service.findAll();
+    public ResponseEntity<Page<CategoryDto>> findAll(@RequestParam(value = "page", defaultValue = "0") Integer page,
+                                                     @RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage,
+                                                     @RequestParam(value = "direction", defaultValue = "ASC") String direction,
+                                                     @RequestParam(value = "orderBy", defaultValue = "name") String orderBy) {
+        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
+        Page<CategoryDto> dtos = service.findAllPaged(pageRequest);
         return ResponseEntity.ok().body(dtos);
     }
 
@@ -37,13 +43,15 @@ public class CategoryResource {
                 .toUri();
         return ResponseEntity.created(uri).body(dto);
     }
+
     @PutMapping(value = "/{id}")
-    public ResponseEntity<CategoryDto> update(@PathVariable Long id, @RequestBody CategoryDto dto){
+    public ResponseEntity<CategoryDto> update(@PathVariable Long id, @RequestBody CategoryDto dto) {
         dto = service.update(id, dto);
         return ResponseEntity.ok().body(dto);
     }
+
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<CategoryDto> delete(@PathVariable Long id){
+    public ResponseEntity<CategoryDto> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

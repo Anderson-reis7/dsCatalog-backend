@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import projeto.anderson.reis.catalogBackend.dto.CategoryDto;
@@ -28,9 +29,9 @@ public class ProductService {
     private CategoryRepository categoryRepository;
 
     @Transactional(readOnly = true)
-    public Page<ProductDto> findAllPaged(PageRequest pageRequest) {
-        Page<Product> list = repository.findAll(pageRequest);
-        return list.map(x -> new ProductDto(x));
+    public Page<ProductDto> findAllPaged(Pageable pageable) {
+        Page<Product> list = repository.findAll(pageable);
+        return list.map(ProductDto::new);
     }
 
     @Transactional(readOnly = true)
